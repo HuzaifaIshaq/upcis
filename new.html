@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ad Analyzer</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Facebook Ad Analyzer</h1>
+    <form id="ad-analyzer-form">
+        <!-- Ad Name -->
+        <div class="mb-3">
+            <label for="adName" class="form-label">Ad Name (Optional)</label>
+            <input type="text" class="form-control" id="adName" placeholder="Enter the name of your Ad">
+        </div>
+        <!-- Reach -->
+        <div class="mb-3">
+            <label for="reach" class="form-label">Reach</label>
+            <input type="number" class="form-control" id="reach" placeholder="Enter the reach of your Ad">
+        </div>
+        <!-- Impressions -->
+        <div class="mb-3">
+            <label for="impressions" class="form-label">Impressions</label>
+            <input type="number" class="form-control" id="impressions" placeholder="Enter the number of impressions">
+        </div>
+        <!-- Objective -->
+        <div class="mb-3">
+            <label for="objective" class="form-label">Objective</label>
+            <input type="text" class="form-control" id="objective" placeholder="Enter the Ad Objective">
+        </div>
+        <!-- Post Engagements -->
+        <div class="mb-3">
+            <label for="engagements" class="form-label">Post Engagements</label>
+            <input type="number" class="form-control" id="engagements" placeholder="Enter the number of engagements">
+        </div>
+        <!-- Clicks -->
+        <div class="mb-3">
+            <label for="clicks" class="form-label">Clicks (All)</label>
+            <input type="number" class="form-control" id="clicks" placeholder="Enter the number of clicks">
+        </div>
+        <!-- CTR -->
+        <div class="mb-3">
+            <label for="ctr" class="form-label">CTR (Click Through Rate)</label>
+            <input type="number" step="0.01" class="form-control" id="ctr" placeholder="Enter CTR percentage">
+        </div>
+        <!-- Amount Spent -->
+        <div class="mb-3">
+            <label for="amountSpent" class="form-label">Amount Spent (PKR)</label>
+            <input type="number" class="form-control" id="amountSpent" placeholder="Enter the amount spent">
+        </div>
+        <!-- Analyze Button -->
+        <button type="button" class="btn btn-primary w-100" onclick="analyzeAd()">Analyze It</button>
+    </form>
+</div>
+
+<!-- Modal for Results -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resultModalLabel">Ad Analysis Results</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="resultContent"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function analyzeAd() {
+        // Get form values
+        const adName = document.getElementById("adName").value || "N/A";
+        const reach = parseFloat(document.getElementById("reach").value) || 0;
+        const impressions = parseFloat(document.getElementById("impressions").value) || 0;
+        const objective = document.getElementById("objective").value || "N/A";
+        const engagements = parseFloat(document.getElementById("engagements").value) || 0;
+        const clicks = parseFloat(document.getElementById("clicks").value) || 0;
+        const ctr = parseFloat(document.getElementById("ctr").value) || 0;
+        const amountSpent = parseFloat(document.getElementById("amountSpent").value) || 0;
+
+        // Calculations
+        const frequency = reach > 0 ? (impressions / reach).toFixed(2) : "N/A";
+        const costPerClick = clicks > 0 ? (amountSpent / clicks).toFixed(2) : "N/A";
+
+        // Formatted Result Text
+        const resultText = `
+            <p>Dear,</p>
+            <p>My Facebook Ad Name is <strong>${adName}</strong> and Its Objective is <strong>${objective}</strong>.</p>
+            <p>Results of this Facebook Ad is Reach <strong>${reach}</strong>.</p>
+            <p>And Impressions are <strong>${impressions}</strong>.</p>
+            <p>And there are <strong>${engagements}</strong> Post Engagements And <strong>${clicks}</strong> Clicks All.</p>
+            <p>According to Facebook CTR is <strong>${ctr}%</strong>.</p>
+            <p>And I have spent Rs<strong>${amountSpent}</strong> on it till yet for these results.</p>
+            <p>Now, Based on these metrics please analyze this campaign for:</p>
+            <ul>
+                <li>How My audience is targeted for this Ad?</li>
+                <li>How My visuals are working?</li>
+                <li>How my budget is being spent according to result?</li>
+                <li>Is there any Recommendation required or not?</li>
+                <li>How is the working frequency of this AD?</li>
+                <li>Suggest optimizations for targeting, budget, and creatives based on my ad performance data.</li>
+                <li>Provide actionable recommendations to lower CPC and improve ROI for my campaigns.</li>
+            </ul>
+            <p> Answer in 5-7 Lines ONLY with easy to Understand headings and wordings.</p>
+        `;
+
+        // Show Result in Modal
+        document.getElementById("resultContent").innerHTML = resultText;
+        const resultModal = new bootstrap.Modal(document.getElementById("resultModal"));
+        resultModal.show();
+    }
+</script>
+
+</body>
+</html>
